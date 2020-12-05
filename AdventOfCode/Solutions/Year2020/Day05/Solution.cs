@@ -7,43 +7,39 @@ namespace AdventOfCode.Solutions.Year2020
 
     class Day05 : ASolution
     {
-
+        int[] ids;
         public Day05() : base(05, 2020, "")
         {
+            string[] passes = Input.Replace('F', '0').Replace('B', '1').Replace('L', '0').Replace('R', '1').SplitByNewline();
+            ids = new int[passes.Length];
+            for (int i = 0; i < passes.Length; i++)
+            {
+                string rowBinary = passes[i].Substring(0,7);
+                int row = reverseBinary(rowBinary);
 
+                string seatBinary = passes[i].Substring(7);
+                int seat = reverseBinary(seatBinary);
+                
+                ids[i] = row * 8 + seat;
+            }
         }
 
         protected override string SolvePartOne()
         {
-            string[] passes = Input.SplitByNewline();
-            int max = 0;
-            int[,] usedSeats = new int[110, 9]; 
-            for (int i = 0; i < passes.Length; i++)
-            {
-                string rowBinary = passes[i].Substring(0,7).Replace('F', '0').Replace('B', '1');
-                int row = reverseBinary(rowBinary);
+            return Utilities.MaxOfMany(ids).ToString();
+        }
 
-                string seatBinary = passes[i].Substring(7).Replace('L', '0').Replace('R', '1');
-                int seat = reverseBinary(seatBinary);
-                usedSeats[row, seat] = 1;
-                int id = row * 8 + seat;
-                if (id > max)
+        protected override string SolvePartTwo()
+        {
+            Array.Sort(ids);
+            for (int i = 1; i < ids.Length; i++)
+            {
+                if (ids[i] - ids[i - 1] > 1)
                 {
-                    max = id;
+                    return (ids[i] - 1).ToString();
                 }
             }
-
-            for (int i = 1; i < 110; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    if (usedSeats[i, j] == 0 && usedSeats[i - 1, j] != 0)
-                    {
-                        Console.WriteLine(i + " " + j);
-                    }
-                }
-            }
-            return max.ToString();
+            return null;
         }
 
         static int reverseBinary(string input)
@@ -64,11 +60,6 @@ namespace AdventOfCode.Solutions.Year2020
                 }
             }
             return hi - 1;
-        }
-
-        protected override string SolvePartTwo()
-        {
-            return null;
         }
     }
 }
