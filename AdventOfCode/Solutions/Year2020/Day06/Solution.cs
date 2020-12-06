@@ -17,20 +17,7 @@ namespace AdventOfCode.Solutions.Year2020
 
         protected override string SolvePartOne()
         {
-            int total = 0;
-            for (int i = 0; i < groups.Length; i++)
-            {
-                string[] persons = groups[i].SplitByNewline();
-                int[] yesQuestions = new int[26];
-                for (int j = 0; j < persons.Length; j++)
-                {
-                    for (int k = 0; k < persons[j].Length; k++)
-                    {
-                        yesQuestions[persons[j][k] - 97] = 1;
-                    }
-                }
-                total += yesQuestions.Count(x => x == 1);
-            }
+            int total = groups.Sum(group => group.Replace("\n", "").Distinct().Count());
             return total.ToString();
         }
 
