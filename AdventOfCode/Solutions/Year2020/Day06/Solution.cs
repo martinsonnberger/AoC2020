@@ -26,22 +26,13 @@ namespace AdventOfCode.Solutions.Year2020
             int total = 0;
             foreach (var group in groups)
             {
-                HashSet<char> groupYes = new HashSet<char>();
-                foreach (char c in group.Replace("\n", ""))
-                {
-                    groupYes.Add(c);
-                }
-
+                var groupsYes = group.Replace("\n", "").Distinct();
+                
                 foreach (string person in group.SplitByNewline())
                 {
-                    HashSet<char> personYes = new HashSet<char>();
-                    foreach (char c in person)
-                    {
-                        personYes.Add(c);
-                    }
-                    groupYes.IntersectWith(personYes);
+                    groupsYes = groupsYes.Intersect(person.Distinct());
                 }
-                total += groupYes.Count();
+                total += groupsYes.Count();
             }
             return total.ToString();
         }
