@@ -24,30 +24,24 @@ namespace AdventOfCode.Solutions.Year2020
         protected override string SolvePartTwo()
         {
             int total = 0;
-            for (int i = 0; i < groups.Length; i++)
+            foreach (var group in groups)
             {
-                string[] persons = groups[i].SplitByNewline();
-                int[] yesQuestions = new int[26];
-                int[,] tickedQs = new int[persons.Length,26];
-                for (int j = 0; j < persons.Length; j++)
+                HashSet<char> groupYes = new HashSet<char>();
+                foreach (char c in group.Replace("\n", ""))
                 {
-                    for (int k = 0; k < persons[j].Length; k++)
-                    {
-                        tickedQs[j, persons[j][k] - 97] = 1;
-                    }
+                    groupYes.Add(c);
                 }
 
-                for (int j = 0; j < tickedQs.GetLength(0); j++)
+                foreach (string person in group.SplitByNewline())
                 {
-                    for (int k = 0; k < tickedQs.GetLength(1); k++)
+                    HashSet<char> personYes = new HashSet<char>();
+                    foreach (char c in person)
                     {
-                        if (tickedQs[j,k] == 0)
-                        {
-                            yesQuestions[k] = 1;
-                        }
+                        personYes.Add(c);
                     }
+                    groupYes.IntersectWith(personYes);
                 }
-                total += yesQuestions.Count(x => x == 0);
+                total += groupYes.Count();
             }
             return total.ToString();
         }
