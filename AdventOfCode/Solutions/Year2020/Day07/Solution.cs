@@ -57,7 +57,14 @@ namespace AdventOfCode.Solutions.Year2020
 
         protected override string SolvePartTwo()
         {
-            return null;
+            var goldBag = rules["shiny gold bag"];
+            
+            return CalcCount(goldBag).ToString();
+        }
+
+        int CalcCount(List<Content> content)
+        {
+            return content.Sum(x => x.count) + content.Sum(x => x.color == "no other bag" ? 0 : CalcCount(rules[x.color]) * x.count);
         }
     }
 }
