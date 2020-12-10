@@ -47,7 +47,8 @@ namespace AdventOfCode.Solutions.Year2020
             list.Sort();
             list.Reverse();
 
-            var edges = new Dictionary<int, long> { { device, 1 } };
+            var edges = new Dictionary<int, long>();
+            edges.Add(device, 1);
             foreach (var item in list)
             {
                 edges.TryGetValue(item + 1, out long c1);
