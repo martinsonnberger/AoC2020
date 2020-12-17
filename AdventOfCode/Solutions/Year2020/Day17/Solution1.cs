@@ -1,3 +1,4 @@
+/*
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,14 +8,14 @@ namespace AdventOfCode.Solutions.Year2020
 
     class Day17 : ASolution
     {
-        char[,,,] grid;
-        bool[,,,] changes;
+        char[,,] grid;
+        bool[,,] changes;
         string[] input;
 
         public Day17() : base(17, 2020, "")
         {
-            grid = new char[30,30,30,30];
-            changes = new bool[30,30,30,30];
+            grid = new char[50,50,50];
+            changes = new bool[50,50,50];
             input = Input.SplitByNewline();
             //input = new string[] {".#.", "..#", "###"};
             for (int x = 0; x < grid.GetLength(1); x++)
@@ -23,10 +24,7 @@ namespace AdventOfCode.Solutions.Year2020
                 {
                     for (int z = 0; z < grid.GetLength(2); z++)
                     {
-                        for (int w = 0; w < grid.GetLength(3); w++)
-                        {
-                            grid[x,y,z,w] = '.';
-                        }
+                        grid[x,y,z] = '.';
                     }
                 }
             } 
@@ -34,7 +32,7 @@ namespace AdventOfCode.Solutions.Year2020
             {
                 for (int y = 0; y < input.Length; y++)
                 {
-                    grid[15 + x, 15 + y, 15, 15] = input[x][y];
+                    grid[25 + x, 25 + y, 25] = input[x][y];
                 }
             }
         }
@@ -52,12 +50,9 @@ namespace AdventOfCode.Solutions.Year2020
                 {
                     for (int z = 0; z < grid.GetLength(2); z++)
                     {
-                        for (int w = 0; w < grid.GetLength(3); w++)
+                        if (grid[x,y,z] == '#')
                         {
-                            if (grid[x,y,z,w] == '#')
-                            {
-                                count++;
-                            }
+                            count++;
                         }
                     }
                 }
@@ -73,8 +68,7 @@ namespace AdventOfCode.Solutions.Year2020
                 {
                     for (int k = 0; k < changes.GetLength(2); k++)
                     {
-                        for (int l = 0; l < changes.GetLength(2); l++)
-                            changes[i,j,k, l] = false;
+                        changes[i,j,k] = false;
                     }
                 }
             } 
@@ -85,17 +79,14 @@ namespace AdventOfCode.Solutions.Year2020
                 {
                     for (int z = 1; z < grid.GetLength(2) - 1; z++)
                     {
-                        for (int w = 1; w < grid.GetLength(3) - 1; w++)
+                        int count = ActiveNeighbors(x, y, z);
+                        if (count == 3 && grid[x,y,z] == '.')
                         {
-                            int count = ActiveNeighbors(x, y, z, w);
-                            if (count == 3 && grid[x,y,z,w] == '.')
-                            {
-                                changes[x,y,z,w] = true;
-                            }
-                            else if ((count < 2 || count > 3) && grid[x,y,z,w] == '#')
-                            {
-                                changes[x,y,z,w] = true;
-                            }
+                            changes[x,y,z] = true;
+                        }
+                        else if ((count < 2 || count > 3) && grid[x,y,z] == '#')
+                        {
+                            changes[x,y,z] = true;
                         }
                     }
                 }
@@ -107,23 +98,21 @@ namespace AdventOfCode.Solutions.Year2020
                 {
                     for (int z = 0; z < changes.GetLength(2); z++)
                     {
-                        for (int w = 0; w < changes.GetLength(3); w++)
+                        if (changes[x,y,z] && grid[x,y,z] == '#')
                         {
-                            if (changes[x,y,z,w] && grid[x,y,z,w] == '#')
-                            {
-                                grid[x,y,z,w] = '.';
-                            }
-                            else if (changes[x,y,z,w] && grid[x,y,z,w] == '.')
-                            {
-                                grid[x,y,z,w] = '#';
-                            }
-                        }    
+                            grid[x,y,z] = '.';
+                        }
+                        else if (changes[x,y,z] && grid[x,y,z] == '.')
+                        {
+                            grid[x,y,z] = '#';
+                        }
                     }
                 }
             } 
+
         }
 
-        int ActiveNeighbors(int x, int y, int z, int w)
+        int ActiveNeighbors(int x, int y, int z)
         {
             int count = 0;
 
@@ -133,20 +122,17 @@ namespace AdventOfCode.Solutions.Year2020
                 {
                     for (int k = -1; k <= 1; k++)
                     {
-                        for (int l = -1; l <= 1; l++)
+                        if (i == 0 && j == 0 && k == 0)
                         {
-                            if (i == 0 && j == 0 && k == 0 && l == 0)
+                            continue;
+                        }
+                        else
+                        {
+                            if (grid[x + i, y + j, z + k] == '#')
                             {
-                                continue;
+                                count++;
                             }
-                            else
-                            {
-                                if (grid[x + i, y + j, z + k, w + l] == '#')
-                                {
-                                    count++;
-                                }
-                            }
-                        }                   
+                        }
                     }
                 }
             }
@@ -159,3 +145,4 @@ namespace AdventOfCode.Solutions.Year2020
         }
     }
 }
+*/
