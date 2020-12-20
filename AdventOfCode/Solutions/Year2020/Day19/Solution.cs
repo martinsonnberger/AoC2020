@@ -26,19 +26,14 @@ namespace AdventOfCode.Solutions.Year2020
                 string value = line.Split(": ")[1];
                 rules.Add(key, value);
             }
-
-            for (int i = 0; i < rules.Count; i++)
-            {
-                rules[i] = ParseRule(i);
-            }
         }
 
         Dictionary<int, string> mem = new Dictionary<int, string>();
-        string ParseRule(int key)
+        string ParseRule(int key, bool part2 = false)
         {
             if (mem.ContainsKey(key))
                 return mem[key];
-
+            
             string rule = rules[key];
 
             if (rule.Contains("\""))
@@ -66,7 +61,7 @@ namespace AdventOfCode.Solutions.Year2020
         protected override string SolvePartOne()
         {
             int count = 0;
-            Regex regex = new Regex("^" + rules[0] + "$");
+            Regex regex = new Regex("^" + ParseRule(0) + "$");
             foreach (var item in messages)
             {
                 if (regex.IsMatch(item))
@@ -77,7 +72,18 @@ namespace AdventOfCode.Solutions.Year2020
 
         protected override string SolvePartTwo()
         {
-            return null;
+            for (int i = 0; i < rules.Count; i++)
+            {
+                rules[i] = ParseRule(i, true);
+            }
+            int count = 0;
+            Regex regex = new Regex("^" + rules[0] + "$");
+            foreach (var item in messages)
+            {
+                if (regex.IsMatch(item))
+                    count++;
+            }
+            return count.ToString();
         }
     }
 }
