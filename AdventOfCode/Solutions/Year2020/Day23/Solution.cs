@@ -7,10 +7,9 @@ namespace AdventOfCode.Solutions.Year2020
 
     class Day23 : ASolution
     {
-
         public Day23() : base(23, 2020, "")
         {
-
+            
         }
 
         protected override string SolvePartOne()
